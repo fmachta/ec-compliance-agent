@@ -1,4 +1,8 @@
 import type { AnalysisResult, ClauseDecision, Severity } from '../types';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 import ClauseCard from './ClauseCard';
 
 interface Props {
@@ -11,6 +15,13 @@ interface Props {
 }
 
 const SEVERITY_ORDER: Severity[] = ['critical', 'high', 'medium', 'low'];
+
+const SEVERITY_COLORS: Record<Severity, string> = {
+  critical: 'text-red-400',
+  high: 'text-orange-400',
+  medium: 'text-yellow-400',
+  low: 'text-blue-400',
+};
 
 export default function ResultsDashboard({
   analysis,
@@ -32,59 +43,52 @@ export default function ResultsDashboard({
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
-          <h2 className="text-xl font-bold text-gray-900">Analysis Results</h2>
-          <p className="mt-1 text-sm text-gray-500">
-            {analysis.total_clauses} clauses analyzed · {analysis.flagged_count}{' '}
-            flagged
+          <h2 className="text-2xl font-bold tracking-tight">Analysis Results</h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {analysis.total_clauses} clauses analyzed · {analysis.flagged_count} flagged
           </p>
         </div>
         <div className="flex gap-2">
-          <button
-            onClick={onNewUpload}
-            className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-          >
+          <Button variant="outline" size="sm" onClick={onNewUpload}>
             New Upload
-          </button>
-          <button
-            onClick={onChat}
-            className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 transition-colors"
-          >
+          </Button>
+          <Button size="sm" onClick={onChat}>
             Chat
-          </button>
-          <button
-            onClick={onExport}
-            className="rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700 transition-colors"
-          >
-            Export
-          </button>
+          </Button>
+          <Button size="sm" variant="secondary" onClick={onExport}>
+            Export Report
+          </Button>
         </div>
       </div>
 
-      {/* Severity summary */}
-      <div className="flex gap-3">
+      <Separator />
+
+      {/* Severity summary cards */}
+      <div className="grid grid-cols-5 gap-3">
         {SEVERITY_ORDER.map((sev) => (
-          <div
-            key={sev}
-            className="flex-1 rounded-lg border border-gray-200 bg-white p-3 text-center"
-          >
-            <div className="text-2xl font-bold text-gray-900">
-              {analysis.severity_counts[sev] || 0}
-            </div>
-            <div className="text-xs font-medium uppercase text-gray-500">
-              {sev}
-            </div>
-          </div>
+          <Card key={sev} className="text-center">
+            <CardContent className="p-3">
+              <div className={`text-2xl font-bold ${SEVERITY_COLORS[sev]}`}>
+                {analysis.severity_counts[sev] || 0}
+              </div>
+              <Badge variant="outline" className="mt-1 text-[10px] uppercase tracking-wider">
+                {sev}
+              </Badge>
+            </CardContent>
+          </Card>
         ))}
-        <div className="flex-1 rounded-lg border border-green-200 bg-green-50 p-3 text-center">
-          <div className="text-2xl font-bold text-green-700">
-            {analysis.total_clauses - analysis.flagged_count}
-          </div>
-          <div className="text-xs font-medium uppercase text-green-600">
-            Clean
-          </div>
-        </div>
+        <Card className="text-center border-emerald-500/30">
+          <CardContent className="p-3">
+            <div className="text-2xl font-bold text-emerald-400">
+              {analysis.total_clauses - analysis.flagged_count}
+            </div>
+            <Badge variant="outline" className="mt-1 text-[10px] uppercase tracking-wider border-emerald-500/30 text-emerald-400">
+              Clean
+            </Badge>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Clause cards */}

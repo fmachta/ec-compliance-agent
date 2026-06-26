@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import type {
   AnalysisResult,
   ChatMessage,
@@ -6,28 +6,32 @@ import type {
   AppPhase,
 } from './types';
 import { extractPdfText, analyzeContract, chatQuery } from './api';
+import { TooltipProvider } from '@/components/ui/tooltip';
+import { Button } from '@/components/ui/button';
+import { Progress } from '@/components/ui/progress';
 import ApiKeyInput from './components/ApiKeyInput';
 import Upload from './components/Upload';
 import ResultsDashboard from './components/ResultsDashboard';
 import ChatPanel from './components/ChatPanel';
 
-// Compliance policy bundled as a string constant at build time
 import policyText from '../mock-data/compliance-policy.md?raw';
 
 function buildChatContext(analysis: AnalysisResult): string {
   const flagged = analysis.clauses.filter((c) => c.violation);
   const lines: string[] = [];
 
-  lines.push(`Contract text (excerpts):`);
+  lines.push('Contract text (excerpts):');
   for (const c of analysis.clauses) {
     lines.push(
       `[${c.clause_id}] ${c.original_text.slice(0, 200)}${c.original_text.length > 200 ? '...' : ''}`,
     );
   }
 
-  lines.push(`\nFlagged violations:`);
+  lines.push('\nFlagged violations:');
   for (const c of flagged) {
-    lines.push(`- ${c.clause_id}: ${c.violation} (${c.severity}, confidence: ${(c.confidence * 100).toFixed(0)}%)`);
+    lines.push(
+      `- ${c.clause_id}: ${c.violation} (${c.severity}, confidence: ${(c.confidence * 100).toFixed(0)}%)`,
+    );
   }
 
   return lines.join('\n');
@@ -69,7 +73,28 @@ function generateExport(
   return lines.join('\n');
 }
 
+function useDarkMode() {
+  const [dark, setDark] = useState(() => {
+    if (typeof window === 'undefined') return true;
+    return localStorage.getItem('theme') !== 'light';
+  });
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (dark) {
+      root.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      root.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [dark]);
+
+  return { dark, toggle: () => setDark((d) => !d) };
+}
+
 export default function App() {
+  const { dark, toggle: toggleDark } = useDarkMode();
   const [apiKey, setApiKey] = useState<string>(
     () => sessionStorage.getItem('gemini_api_key') || '',
   );
@@ -98,9 +123,14 @@ export default function App() {
       try {
         const text = await extractPdfText(file);
 
-        const result = await analyzeContract(apiKey, policyText, text, (current, total, clauseId) => {
-          setProgress({ current, total, clauseId });
-        });
+        const result = await analyzeContract(
+          apiKey,
+          policyText,
+          text,
+          (current, total, clauseId) => {
+            setProgress({ current, total, clauseId });
+          },
+        );
 
         const analysisResult: AnalysisResult = {
           session_id: crypto.randomUUID(),
@@ -125,7 +155,6 @@ export default function App() {
     (clauseId: string, decision: 'accept' | 'reject') => {
       setDecisions((prev) => {
         const current = prev[clauseId];
-        // Toggle: if clicking the same button, deselect
         if (current === decision) {
           const next = { ...prev };
           delete next[clauseId];
@@ -188,71 +217,94 @@ export default function App() {
     setPhase('upload');
   }, []);
 
+  // Dark mode toggle button (reusable)
+  const DarkToggle = (
+    <Button
+      variant="ghost"
+      size="icon"
+      onClick={toggleDark}
+      className="fixed top-4 right-4 z-50 rounded-full"
+      aria-label="Toggle dark mode"
+    >
+      {dark ? '☀️' : '🌙'}
+    </Button>
+  );
+
   // Key input screen
   if (phase === 'input-key') {
-    return <ApiKeyInput onSubmit={handleApiKey} />;
+    return (
+      <TooltipProvider>
+        {DarkToggle}
+        <ApiKeyInput onSubmit={handleApiKey} />
+      </TooltipProvider>
+    );
   }
 
   // Upload screen
   if (phase === 'upload') {
     return (
-      <div>
-        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 bg-white">
-          <span className="text-sm text-gray-500">
-            API key: {apiKey.slice(0, 8)}...{apiKey.slice(-4)}
-          </span>
-          <button
-            onClick={() => {
-              sessionStorage.removeItem('gemini_api_key');
-              setApiKey('');
-              setPhase('input-key');
-            }}
-            className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
-          >
-            Clear key
-          </button>
+      <TooltipProvider>
+        {DarkToggle}
+        <div className="border-b bg-card">
+          <div className="mx-auto max-w-4xl flex items-center justify-between px-4 py-3">
+            <span className="text-sm text-muted-foreground">
+              API key: {apiKey.slice(0, 8)}...{apiKey.slice(-4)}
+            </span>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                sessionStorage.removeItem('gemini_api_key');
+                setApiKey('');
+                setPhase('input-key');
+              }}
+            >
+              Clear key
+            </Button>
+          </div>
         </div>
         {error && (
-          <div className="mx-auto mt-4 max-w-lg rounded-lg bg-red-50 p-4 text-sm text-red-700">
+          <div className="mx-auto mt-4 max-w-lg rounded-lg bg-destructive/10 p-4 text-sm text-destructive">
             <strong>Error:</strong> {error}
           </div>
         )}
         <Upload onUpload={handleUpload} />
-      </div>
+      </TooltipProvider>
     );
   }
 
   // Analyzing spinner with progress
   if (phase === 'analyzing') {
-    const pct = progress.total > 0 ? Math.round((progress.current / progress.total) * 100) : 0;
+    const pct =
+      progress.total > 0
+        ? Math.round((progress.current / progress.total) * 100)
+        : 0;
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="text-center space-y-4">
-          <div className="mx-auto h-12 w-12 animate-spin rounded-full border-4 border-blue-200 border-t-blue-600" />
-          <p className="text-lg font-medium text-gray-700">
-            Analyzing with Gemini...
-          </p>
-          {progress.total > 0 && (
-            <div className="space-y-2">
-              <div className="text-sm text-gray-500">
-                Clause {progress.current} of {progress.total}
-                <span className="ml-2 font-mono text-xs text-gray-400">
-                  [{progress.clauseId}]
-                </span>
-              </div>
-              <div className="mx-auto h-2 w-64 overflow-hidden rounded-full bg-gray-200">
-                <div
-                  className="h-full rounded-full bg-blue-600 transition-all duration-300"
-                  style={{ width: `${pct}%` }}
-                />
-              </div>
+      <TooltipProvider>
+        {DarkToggle}
+        <div className="flex min-h-screen items-center justify-center">
+          <div className="text-center space-y-6">
+            <div className="mx-auto h-16 w-16 animate-spin rounded-full border-4 border-muted border-t-primary" />
+            <div>
+              <p className="text-xl font-semibold">Analyzing with Gemini...</p>
+              {progress.total > 0 && (
+                <div className="mt-4 space-y-2">
+                  <p className="text-sm text-muted-foreground">
+                    Clause {progress.current} of {progress.total}
+                    <span className="ml-2 font-mono text-xs">
+                      [{progress.clauseId}]
+                    </span>
+                  </p>
+                  <Progress value={pct} className="mx-auto w-64" />
+                </div>
+              )}
+              <p className="mt-4 text-xs text-muted-foreground">
+                This takes 5–15 seconds per clause.
+              </p>
             </div>
-          )}
-          <p className="text-xs text-gray-400">
-            This takes 5–15 seconds per clause.
-          </p>
+          </div>
         </div>
-      </div>
+      </TooltipProvider>
     );
   }
 
@@ -260,36 +312,39 @@ export default function App() {
   if (phase === 'results' && analysis) {
     if (showChat) {
       return (
-        <div className="flex h-screen flex-col">
-          <div className="flex items-center justify-between border-b border-gray-200 bg-white px-4 py-3">
-            <h2 className="font-semibold text-gray-900">Chat</h2>
-            <button
-              onClick={() => setShowChat(false)}
-              className="rounded-lg border border-gray-300 px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-50 transition-colors"
-            >
-              ← Back to Results
-            </button>
+        <TooltipProvider>
+          {DarkToggle}
+          <div className="flex h-screen flex-col">
+            <div className="flex items-center justify-between border-b bg-card px-4 py-3">
+              <h2 className="font-semibold">Chat</h2>
+              <Button variant="ghost" size="sm" onClick={() => setShowChat(false)}>
+                ← Back to Results
+              </Button>
+            </div>
+            <div className="flex-1 p-4 overflow-hidden">
+              <ChatPanel
+                messages={chatMessages}
+                onSend={handleChat}
+                loading={chatLoading}
+              />
+            </div>
           </div>
-          <div className="flex-1 p-4 overflow-hidden">
-            <ChatPanel
-              messages={chatMessages}
-              onSend={handleChat}
-              loading={chatLoading}
-            />
-          </div>
-        </div>
+        </TooltipProvider>
       );
     }
 
     return (
-      <ResultsDashboard
-        analysis={analysis}
-        decisions={decisions}
-        onDecision={handleDecision}
-        onExport={handleExport}
-        onChat={() => setShowChat(true)}
-        onNewUpload={handleNewUpload}
-      />
+      <TooltipProvider>
+        {DarkToggle}
+        <ResultsDashboard
+          analysis={analysis}
+          decisions={decisions}
+          onDecision={handleDecision}
+          onExport={handleExport}
+          onChat={() => setShowChat(true)}
+          onNewUpload={handleNewUpload}
+        />
+      </TooltipProvider>
     );
   }
 
