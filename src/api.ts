@@ -1,9 +1,9 @@
 import * as pdfjsLib from 'pdfjs-dist';
+import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import type { ClauseResult, ChatMessage } from './types';
 
-// pdf.js worker — use CDN for simplicity in static deployment
-pdfjsLib.GlobalWorkerOptions.workerSrc =
-  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/5.4.449/pdf.worker.min.mjs';
+// Use the locally bundled worker (Vite resolves and bundles it at build time)
+pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
 /** Extract all text from a PDF file using pdf.js */
 export async function extractPdfText(file: File): Promise<string> {
