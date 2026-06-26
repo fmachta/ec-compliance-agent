@@ -116,8 +116,6 @@ export default function App() {
         const msg = err instanceof Error ? err.message : 'Unknown error';
         setError(msg);
         setPhase('upload');
-      } finally {
-        setPhase('upload');
       }
     },
     [apiKey],
