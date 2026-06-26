@@ -84,15 +84,9 @@ export default function Upload({ onUpload }: Props) {
                 {displayError}
               </div>
             )}
-
-            <p className="text-center text-xs text-muted-foreground leading-relaxed">
-              Your document is processed locally in the browser and analyzed by
-              Gemini Flash Lite.
-            </p>
           </CardContent>
         </Card>
 
-        {/* Sample contracts to drag from */}
         <SampleContracts onSelect={onUpload} />
       </div>
     </div>
