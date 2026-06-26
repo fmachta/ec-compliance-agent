@@ -56,6 +56,19 @@ export default function ResultsDashboard({
 
       <Separator />
 
+      {/* Severity summary — text only, no colors */}
+      <div className="flex items-center gap-3 text-sm text-muted-foreground">
+        <span className="font-semibold">{analysis.severity_counts.critical} Critical</span>
+        <span>·</span>
+        <span className="font-semibold">{analysis.severity_counts.high} High</span>
+        <span>·</span>
+        <span className="font-semibold">{analysis.severity_counts.medium} Medium</span>
+        <span>·</span>
+        <span className="font-semibold">{analysis.severity_counts.low} Low</span>
+        <span>·</span>
+        <span className="font-semibold">{analysis.total_clauses - analysis.flagged_count} Clean</span>
+      </div>
+
       {/* Clause cards */}
       <div className="space-y-4">
         {sortedClauses.map((clause) => (
