@@ -10,7 +10,6 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { Progress } from '@/components/ui/progress';
 import SettingsModal, { GearIcon } from './components/SettingsModal';
 import { Button } from '@/components/ui/button';
-import ApiKeyInput from './components/ApiKeyInput';
 import Upload from './components/Upload';
 import ResultsDashboard from './components/ResultsDashboard';
 import ChatPanel from './components/ChatPanel';
@@ -83,9 +82,7 @@ export default function App() {
   const [apiKey, setApiKey] = useState<string>(
     () => sessionStorage.getItem('gemini_api_key') || '',
   );
-  const [phase, setPhase] = useState<AppPhase>(
-    apiKey ? 'upload' : 'input-key',
-  );
+  const [phase, setPhase] = useState<AppPhase>('upload');
   const [showSettings, setShowSettings] = useState(false);
   const [analysis, setAnalysis] = useState<AnalysisResult | null>(null);
   const [decisions, setDecisions] = useState<Record<string, ClauseDecision>>({});
@@ -95,13 +92,13 @@ export default function App() {
   const [error, setError] = useState<string | null>(null);
   const [progress, setProgress] = useState({ current: 0, total: 0, clauseId: '' });
 
-  const handleApiKey = useCallback((key: string) => {
-    setApiKey(key);
-    setPhase('upload');
-  }, []);
-
   const handleUpload = useCallback(
     async (file: File) => {
+      if (!apiKey) {
+        setError('Please set your Gemini API key first. Click the ⚙ icon in the top-right corner.');
+        setShowSettings(true);
+        return;
+      }
       setPhase('analyzing');
       setError(null);
       setProgress({ current: 0, total: 0, clauseId: '' });
@@ -203,15 +200,6 @@ export default function App() {
     setPhase('upload');
   }, []);
 
-  // Key input screen
-  if (phase === 'input-key') {
-    return (
-      <TooltipProvider>
-        <ApiKeyInput onSubmit={handleApiKey} />
-      </TooltipProvider>
-    );
-  }
-
   // Upload screen
   if (phase === 'upload') {
     return (
@@ -233,7 +221,7 @@ export default function App() {
           <SettingsModal
             apiKey={apiKey}
             onSave={(key) => { setApiKey(key); setShowSettings(false); }}
-            onClear={() => { sessionStorage.removeItem('gemini_api_key'); setApiKey(''); setShowSettings(false); setPhase('input-key'); }}
+            onClear={() => { sessionStorage.removeItem('gemini_api_key'); setApiKey(''); setShowSettings(true); setPhase('upload'); }}
             onClose={() => setShowSettings(false)}
           />
         )}
@@ -282,7 +270,7 @@ export default function App() {
           <SettingsModal
             apiKey={apiKey}
             onSave={(key) => { setApiKey(key); setShowSettings(false); }}
-            onClear={() => { sessionStorage.removeItem('gemini_api_key'); setApiKey(''); setShowSettings(false); setPhase('input-key'); }}
+            onClear={() => { sessionStorage.removeItem('gemini_api_key'); setApiKey(''); setShowSettings(true); setPhase('upload'); }}
             onClose={() => setShowSettings(false)}
           />
         )}
@@ -321,7 +309,7 @@ export default function App() {
             <SettingsModal
               apiKey={apiKey}
               onSave={(key) => { setApiKey(key); setShowSettings(false); }}
-              onClear={() => { sessionStorage.removeItem('gemini_api_key'); setApiKey(''); setShowSettings(false); setPhase('input-key'); }}
+              onClear={() => { sessionStorage.removeItem('gemini_api_key'); setApiKey(''); setShowSettings(true); setPhase('upload'); }}
               onClose={() => setShowSettings(false)}
             />
           )}
@@ -350,7 +338,7 @@ export default function App() {
           <SettingsModal
             apiKey={apiKey}
             onSave={(key) => { setApiKey(key); setShowSettings(false); }}
-            onClear={() => { sessionStorage.removeItem('gemini_api_key'); setApiKey(''); setShowSettings(false); setPhase('input-key'); }}
+            onClear={() => { sessionStorage.removeItem('gemini_api_key'); setApiKey(''); setShowSettings(true); setPhase('upload'); }}
             onClose={() => setShowSettings(false)}
           />
         )}
