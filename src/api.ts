@@ -82,8 +82,18 @@ async function callGemini(
   });
 
   if (!res.ok) {
-    const errText = await res.text();
-    throw new Error(`Gemini API error (${res.status}): ${errText}`);
+    const errData = await res.json().catch(() => ({}));
+    const errMsg =
+      (errData as { error?: { message?: string } }).error?.message ||
+      `HTTP ${res.status}`;
+
+    if (res.status === 401 || res.status === 403) {
+      throw new Error(`Invalid API key — please check your Gemini key and try again.`);
+    }
+    if (res.status === 429) {
+      throw new Error(`Rate limit reached. Wait a moment and try again.`);
+    }
+    throw new Error(`Gemini API error: ${errMsg}`);
   }
 
   const data = await res.json();
@@ -147,6 +157,7 @@ export async function analyzeContract(
   apiKey: string,
   policyText: string,
   contractText: string,
+  onProgress?: (current: number, total: number, clauseId: string) => void,
 ): Promise<{
   clauses: ClauseResult[];
   total_clauses: number;
@@ -156,11 +167,12 @@ export async function analyzeContract(
   const chunks = chunkIntoClauses(contractText);
 
   const results: ClauseResult[] = [];
-  for (const chunk of chunks) {
-    const result = await analyzeClause(apiKey, policyText, chunk);
+  for (let i = 0; i < chunks.length; i++) {
+    onProgress?.(i + 1, chunks.length, chunks[i].clause_id);
+    const result = await analyzeClause(apiKey, policyText, chunks[i]);
     results.push(result);
     // Small delay to respect rate limits (free tier: 15 RPM)
-    if (chunks.length > 1) {
+    if (i < chunks.length - 1) {
       await new Promise((r) => setTimeout(r, 500));
     }
   }

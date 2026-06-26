@@ -62,9 +62,9 @@ Parties:        Seller:  AeroTech Global, Inc. (Phoenix, AZ, USA)
      without a license (License Exception NLR).
 
 5.2  Seller has screened Buyer against the BIS Entity List, Denied Persons
-     List, and OFAC SDN List as required by Company Policy §2.1. No
-     matches were found. Restricted Party Screening Certificate
-     (Form ATG-RPS-01) is on file.
+     List, OFAC SDN List, BIS Unverified List, and DDTC Debarred Parties
+     List as required by Company Policy §2.1. No matches were found.
+     Restricted Party Screening Certificate (Form ATG-RPS-01) is on file.
 
 5.3  A record of this transaction shall be retained per Company Policy
      §1.3 for a period of five (5) years from the date of export.

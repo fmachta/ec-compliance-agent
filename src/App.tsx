@@ -82,6 +82,7 @@ export default function App() {
   const [chatLoading, setChatLoading] = useState(false);
   const [showChat, setShowChat] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [progress, setProgress] = useState({ current: 0, total: 0, clauseId: '' });
 
   const handleApiKey = useCallback((key: string) => {
     setApiKey(key);
@@ -92,11 +93,14 @@ export default function App() {
     async (file: File) => {
       setPhase('analyzing');
       setError(null);
+      setProgress({ current: 0, total: 0, clauseId: '' });
 
       try {
         const text = await extractPdfText(file);
 
-        const result = await analyzeContract(apiKey, policyText, text);
+        const result = await analyzeContract(apiKey, policyText, text, (current, total, clauseId) => {
+          setProgress({ current, total, clauseId });
+        });
 
         const analysisResult: AnalysisResult = {
           session_id: crypto.randomUUID(),
@@ -220,17 +224,34 @@ export default function App() {
     );
   }
 
-  // Analyzing spinner
+  // Analyzing spinner with progress
   if (phase === 'analyzing') {
+    const pct = progress.total > 0 ? Math.round((progress.current / progress.total) * 100) : 0;
     return (
       <div className="flex min-h-screen items-center justify-center">
         <div className="text-center space-y-4">
           <div className="mx-auto h-12 w-12 animate-spin rounded-full border-4 border-blue-200 border-t-blue-600" />
           <p className="text-lg font-medium text-gray-700">
-            Analyzing contract with Gemini...
+            Analyzing with Gemini...
           </p>
-          <p className="text-sm text-gray-400">
-            This may take 10–30 seconds depending on contract length.
+          {progress.total > 0 && (
+            <div className="space-y-2">
+              <div className="text-sm text-gray-500">
+                Clause {progress.current} of {progress.total}
+                <span className="ml-2 font-mono text-xs text-gray-400">
+                  [{progress.clauseId}]
+                </span>
+              </div>
+              <div className="mx-auto h-2 w-64 overflow-hidden rounded-full bg-gray-200">
+                <div
+                  className="h-full rounded-full bg-blue-600 transition-all duration-300"
+                  style={{ width: `${pct}%` }}
+                />
+              </div>
+            </div>
+          )}
+          <p className="text-xs text-gray-400">
+            This takes 5–15 seconds per clause.
           </p>
         </div>
       </div>
