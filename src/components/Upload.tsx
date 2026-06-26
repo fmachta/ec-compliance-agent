@@ -5,9 +5,10 @@ import SampleContracts from './SampleContracts';
 
 interface Props {
   onUpload: (file: File) => void;
+  onSampleSelect: (text: string, label: string) => void;
 }
 
-export default function Upload({ onUpload }: Props) {
+export default function Upload({ onUpload, onSampleSelect }: Props) {
   const [error, setError] = useState<string | null>(null);
 
   const onDrop = useCallback(
@@ -87,7 +88,7 @@ export default function Upload({ onUpload }: Props) {
           </CardContent>
         </Card>
 
-        <SampleContracts onSelect={onUpload} />
+        <SampleContracts onSelect={onSampleSelect} />
       </div>
     </div>
   );

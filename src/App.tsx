@@ -136,6 +136,39 @@ export default function App() {
     [apiKey],
   );
 
+  const handleSampleSelect = useCallback(
+    async (text: string, _label: string) => {
+      if (!apiKey) {
+        setError('Please set your Gemini API key first. Click the ⚙ icon in the top-right corner.');
+        setShowSettings(true);
+        return;
+      }
+      setPhase('analyzing');
+      setError(null);
+      setProgress({ current: 0, total: 0, clauseId: '' });
+
+      try {
+        const result = await analyzeContract(apiKey, policyText, text, (current, total, clauseId) => {
+          setProgress({ current, total, clauseId });
+        });
+
+        setAnalysis({
+          session_id: crypto.randomUUID(),
+          ...result,
+          contract_text: text,
+        });
+        setDecisions({});
+        setChatMessages([]);
+        setPhase('results');
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : 'Unknown error';
+        setError(msg);
+        setPhase('upload');
+      }
+    },
+    [apiKey],
+  );
+
   const handleDecision = useCallback(
     (clauseId: string, decision: 'accept' | 'reject') => {
       setDecisions((prev) => {
@@ -226,7 +259,7 @@ export default function App() {
             <strong>Error:</strong> {error}
           </div>
         )}
-        <Upload onUpload={handleUpload} />
+        <Upload onUpload={handleUpload} onSampleSelect={handleSampleSelect} />
         {showSettings && (
           <SettingsModal
             apiKey={apiKey}

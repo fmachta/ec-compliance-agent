@@ -24,24 +24,21 @@ const CONTRACTS: ContractInfo[] = [
 ];
 
 interface Props {
-  onSelect: (file: File) => void;
+  onSelect: (text: string, label: string) => void;
 }
 
 export default function SampleContracts({ onSelect }: Props) {
   const handleSelect = useCallback(
     (contract: ContractInfo) => {
-      const blob = new Blob([contract.text], { type: 'application/pdf' });
-      const file = new File([blob], `${contract.id}.pdf`, { type: 'application/pdf' });
-      onSelect(file);
+      onSelect(contract.text, contract.label);
     },
     [onSelect],
   );
 
   const handleDragStart = useCallback(
     (e: React.DragEvent, contract: ContractInfo) => {
-      const blob = new Blob([contract.text], { type: 'application/pdf' });
-      const file = new File([blob], `${contract.id}.pdf`, { type: 'application/pdf' });
-      e.dataTransfer.items.add(file);
+      e.dataTransfer.setData('text/plain', contract.text);
+      e.dataTransfer.setData('application/x-sample-contract', contract.label);
       e.dataTransfer.effectAllowed = 'copy';
     },
     [],
