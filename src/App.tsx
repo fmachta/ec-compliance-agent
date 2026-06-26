@@ -278,54 +278,18 @@ export default function App() {
     );
   }
 
-  // Results view with optional chat
+  // Results view with slide-in chat
   if (phase === 'results' && analysis) {
-    if (showChat) {
-      return (
-        <TooltipProvider>
-          <button
-            onClick={() => setShowSettings(true)}
-            className="fixed top-4 right-4 z-50 rounded-full p-2 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
-            aria-label="Settings"
-          >
-            <GearIcon />
-          </button>
-          <div className="flex h-screen flex-col">
-            <div className="flex items-center justify-between border-b bg-card px-4 py-3">
-              <h2 className="font-semibold">Chat</h2>
-              <Button variant="ghost" size="sm" onClick={() => setShowChat(false)}>
-                ← Back to Results
-              </Button>
-            </div>
-            <div className="flex-1 p-4 overflow-hidden">
-              <ChatPanel
-                messages={chatMessages}
-                onSend={handleChat}
-                loading={chatLoading}
-              />
-            </div>
-          </div>
-          {showSettings && (
-            <SettingsModal
-              apiKey={apiKey}
-              onSave={(key) => { setApiKey(key); setShowSettings(false); }}
-              onClear={() => { sessionStorage.removeItem('gemini_api_key'); setApiKey(''); setShowSettings(true); setPhase('upload'); }}
-              onClose={() => setShowSettings(false)}
-            />
-          )}
-        </TooltipProvider>
-      );
-    }
-
     return (
       <TooltipProvider>
         <button
           onClick={() => setShowSettings(true)}
-          className="fixed top-4 right-4 z-50 rounded-full p-2 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+          className="fixed top-4 right-4 z-40 rounded-full p-2 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
           aria-label="Settings"
         >
           <GearIcon />
         </button>
+
         <ResultsDashboard
           analysis={analysis}
           decisions={decisions}
@@ -334,6 +298,36 @@ export default function App() {
           onChat={() => setShowChat(true)}
           onNewUpload={handleNewUpload}
         />
+
+        {/* Chat slide-in panel */}
+        <div
+          className={`fixed top-0 right-0 z-30 h-full w-full max-w-md transform transition-transform duration-300 ease-in-out shadow-2xl border-l bg-card ${
+            showChat ? 'translate-x-0' : 'translate-x-full'
+          }`}
+        >
+          <div className="flex items-center justify-between border-b px-4 py-3">
+            <h2 className="font-semibold">Chat</h2>
+            <Button variant="ghost" size="sm" onClick={() => setShowChat(false)}>
+              ✕ Close
+            </Button>
+          </div>
+          <div className="h-[calc(100%-57px)] overflow-hidden">
+            <ChatPanel
+              messages={chatMessages}
+              onSend={handleChat}
+              loading={chatLoading}
+            />
+          </div>
+        </div>
+
+        {/* Backdrop when chat is open */}
+        {showChat && (
+          <div
+            className="fixed inset-0 z-20 bg-black/20"
+            onClick={() => setShowChat(false)}
+          />
+        )}
+
         {showSettings && (
           <SettingsModal
             apiKey={apiKey}
