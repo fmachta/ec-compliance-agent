@@ -1,0 +1,117 @@
+================================================================================
+                   EXPORT SALES AGREEMENT
+================================================================================
+
+Agreement No:   ASA-2024-0817
+Date:           August 17, 2024
+Parties:        Seller:  AeroTech Global, Inc. (Phoenix, AZ, USA)
+                Buyer:   Advanced Research Institute (Tehran, Iran)
+
+================================================================================
+1.  SCOPE OF SUPPLY
+================================================================================
+
+1.1  Seller agrees to sell and Buyer agrees to purchase the goods described
+     below (the "Goods"):
+
+     Item:         Xilinx Kintex-7 FPGA Development Boards (Model: KC705)
+     Quantity:     45 units
+     Unit Price:   $3,495.00 USD
+     Total Value:  $157,275.00 USD
+
+1.2  The Goods shall be used by Buyer for research and development purposes
+     at Buyer's Signal Processing Laboratory. Specific end-use: development
+     of high-speed digital signal processing algorithms for radar signal
+     analysis applications.
+
+1.3  Seller shall provide technical documentation, design files, and
+     reference implementations necessary for Buyer's integration of the
+     FPGA boards into its signal processing systems.
+
+================================================================================
+2.  DELIVERY TERMS
+================================================================================
+
+2.1  Delivery shall be made EXW (Ex Works) Seller's facility in Phoenix,
+     Arizona, USA, per INCOTERMS 2020.
+
+2.2  Buyer shall arrange and pay for all freight, insurance, and customs
+     clearance from Seller's facility to Buyer's designated receiving
+     location in Tehran, Iran.
+
+2.3  Estimated ship date: September 15, 2024, or within 30 days of receipt
+     of payment, whichever is later.
+
+================================================================================
+3.  PAYMENT TERMS
+================================================================================
+
+3.1  Payment shall be made by irrevocable letter of credit confirmed by
+     Bank Melli Iran. Payment terms: 100% against presentation of commercial
+     invoice, packing list, and airway bill.
+
+================================================================================
+4.  TECHNICAL DATA AND SUPPORT
+================================================================================
+
+4.1  Seller shall provide complete schematics, PCB layout files, and FPGA
+     configuration bitstreams for the KC705 platform.
+
+4.2  Seller shall provide two weeks of on-site technical support at Buyer's
+     facility in Tehran, including training on FPGA programming and signal
+     processing implementation.
+
+4.3  All technical data, documentation, and software provided under this
+     Agreement is deemed proprietary and confidential.
+
+================================================================================
+5.  WARRANTIES AND REPRESENTATIONS
+================================================================================
+
+5.1  Seller warrants that the Goods are free from defects in materials and
+     workmanship for a period of 12 months from date of delivery.
+
+5.2  Buyer represents that the Goods will be used solely for peaceful
+     civilian research purposes.
+
+================================================================================
+6.  GOVERNING LAW
+================================================================================
+
+6.1  This Agreement shall be governed by the laws of the State of Arizona,
+     USA, without regard to conflicts of law principles.
+
+6.2  Any disputes arising under this Agreement shall be resolved through
+     binding arbitration in Phoenix, Arizona.
+
+================================================================================
+7.  EXPORT CONTROL
+================================================================================
+
+7.1  Buyer acknowledges that the Goods are subject to United States export
+     control laws and regulations ("Export Laws").
+
+7.2  Buyer agrees not to re-export, resell, or transfer the Goods to any
+     third party without Seller's prior written consent.
+
+================================================================================
+
+SIGNATURES:
+
+For and on behalf of AeroTech Global, Inc.:
+
+/s/ Michael Reeves
+Michael Reeves
+Vice President, International Sales
+Date: August 17, 2024
+
+For and on behalf of Advanced Research Institute:
+
+/s/ Dr. Hassan Rouhparvar
+Dr. Hassan Rouhparvar
+Director of Procurement
+Date: August 17, 2024
+
+================================================================================
+                            END OF AGREEMENT
+================================================================================

@@ -1,0 +1,105 @@
+================================================================================
+              RE-EXPORT AUTHORIZATION AND TRANSFER AGREEMENT
+================================================================================
+
+Agreement No:   RTA-2024-0309
+Date:           March 9, 2024
+Parties:        Transferor:  OptiDefense Systems, LLC (San Diego, CA, USA)
+                Transferee:  Al-Jazari Defense Industries (Riyadh, Saudi Arabia)
+
+================================================================================
+1.  RECITALS
+================================================================================
+
+1.1  WHEREAS, Transferee has previously acquired from Transferor certain
+     night-vision and thermal imaging components ("Original Export"),
+     originally exported under US State Department authorization;
+
+1.2  WHEREAS, Transferee now desires to transfer a portion of such
+     components to its subsidiary, Al-Jazari Defense Industries — Gulf
+     Division (Abu Dhabi, United Arab Emirates), for integration into
+     armored vehicle targeting systems;
+
+1.3  WHEREAS, Transferor is willing to authorize such transfer subject to
+     the terms and conditions set forth herein.
+
+================================================================================
+2.  ITEMS SUBJECT TO TRANSFER
+================================================================================
+
+2.1  The items authorized for re-transfer ("Items") are:
+
+     (a) Model XR-7 Gen III+ Image Intensifier Tubes (Qty: 120 units)
+         USML Category XII(b)
+     (b) Model TIS-9500 Thermal Imaging Sensor Cores (Qty: 85 units)
+         USML Category XII(c)
+     (c) Integrated Night-Vision Monocular Assemblies (Qty: 75 units)
+         USML Category XII(d)
+     (d) Associated technical documentation and maintenance manuals
+
+2.2  Total notional value of Items: $3,450,000 USD
+
+================================================================================
+3.  TRANSFER AUTHORIZATION
+================================================================================
+
+3.1  Transferor hereby authorizes Transferee to transfer the Items from
+     Riyadh, Saudi Arabia, to Abu Dhabi, United Arab Emirates.
+
+3.2  The Items shall be integrated into Al-Jazari's ASV-90 Armored
+     Surveillance Vehicle platform for use by the United Arab Emirates
+     Armed Forces.
+
+================================================================================
+4.  CONDITIONS OF TRANSFER
+================================================================================
+
+4.1  Transferee shall ensure that the Items are used exclusively for the
+     purposes described in Section 3.2.
+
+4.2  Transferee shall not further transfer, re-export, or re-sell the Items
+     to any other party without Transferor's prior written consent.
+
+4.3  Transferee shall maintain accurate records of the Items' location,
+     custody, and use for a period of three (3) years.
+
+================================================================================
+5.  FEES
+================================================================================
+
+5.1  In consideration of Transferor's authorization, Transferee shall pay
+     a Transfer Authorization Fee of $175,000 USD within 15 days of
+     execution of this Agreement.
+
+================================================================================
+6.  COMPLIANCE
+================================================================================
+
+6.1  Transferee acknowledges that the Items are controlled under the
+     International Traffic in Arms Regulations (ITAR) and agrees to comply
+     with all applicable requirements.
+
+6.2  Transferee shall indemnify and hold harmless Transferor from any
+     claims, penalties, or liabilities arising from Transferee's failure
+     to comply with ITAR or other applicable export control laws.
+
+================================================================================
+7.  GOVERNING LAW
+================================================================================
+
+7.1  This Agreement shall be governed by the laws of the State of
+     California, USA.
+
+================================================================================
+
+SIGNATURES:
+
+For OptiDefense Systems, LLC:             For Al-Jazari Defense Industries:
+
+/s/ Robert Chen                           /s/ Brig. Gen. Faisal Al-Otaibi
+Robert Chen                               Brigadier General Faisal Al-Otaibi
+Director of Export Compliance             Chief Executive Officer
+
+================================================================================
+                            END OF AGREEMENT
+================================================================================
