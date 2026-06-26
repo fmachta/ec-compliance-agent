@@ -145,18 +145,20 @@ export default function ClauseCard({ clause, decision, onDecision }: Props) {
                 size="sm"
                 variant={decision === 'accept' ? 'default' : 'outline'}
                 className={decision === 'accept' ? 'bg-emerald-600 hover:bg-emerald-700' : ''}
-                onClick={() =>
-                  onDecision(clause.clause_id, decision === 'accept' ? 'accept' : 'accept')
-                }
+                onClick={() => {
+                  onDecision(clause.clause_id, decision === 'accept' ? 'accept' : 'accept');
+                  if (decision !== 'accept') setShowDiff(true);
+                }}
               >
                 {decision === 'accept' ? '✓ Accepted' : 'Accept'}
               </Button>
               <Button
                 size="sm"
                 variant={decision === 'reject' ? 'destructive' : 'outline'}
-                onClick={() =>
-                  onDecision(clause.clause_id, decision === 'reject' ? 'reject' : 'reject')
-                }
+                onClick={() => {
+                  onDecision(clause.clause_id, decision === 'reject' ? 'reject' : 'reject');
+                  if (decision !== 'reject') setShowDiff(false);
+                }}
               >
                 {decision === 'reject' ? '✗ Rejected' : 'Reject'}
               </Button>
