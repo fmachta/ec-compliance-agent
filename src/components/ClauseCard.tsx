@@ -19,13 +19,33 @@ const SEVERITY_VARIANTS: Record<Severity, 'destructive' | 'default' | 'secondary
   low: 'outline',
 };
 
+const SEVERITY_BORDER: Record<Severity, string> = {
+  critical: 'border-l-red-500',
+  high: 'border-l-orange-500',
+  medium: 'border-l-yellow-500',
+  low: 'border-l-blue-500',
+};
+
+const SEVERITY_BG: Record<Severity, string> = {
+  critical: 'bg-red-500/10 border-red-500/20',
+  high: 'bg-orange-500/10 border-orange-500/20',
+  medium: 'bg-yellow-500/10 border-yellow-500/20',
+  low: 'bg-blue-500/10 border-blue-500/20',
+};
+
 export default function ClauseCard({ clause, decision, onDecision }: Props) {
   const [showDiff, setShowDiff] = useState(false);
   const hasViolation = clause.violation !== null;
   const confPct = Math.round(clause.confidence * 100);
+  const borderClass = hasViolation && clause.severity
+    ? SEVERITY_BORDER[clause.severity]
+    : 'border-l-emerald-500';
+  const highlightClass = hasViolation && clause.severity
+    ? SEVERITY_BG[clause.severity]
+    : 'bg-emerald-500/5 border-emerald-500/20';
 
   return (
-    <Card className={hasViolation ? 'border-l-4 border-l-destructive' : 'border-l-4 border-l-emerald-500'}>
+    <Card className={'border-l-4 ' + borderClass}>
       <CardContent className="p-5 space-y-4">
         {/* Header */}
         <div className="flex items-center justify-between gap-3 flex-wrap">
@@ -52,10 +72,12 @@ export default function ClauseCard({ clause, decision, onDecision }: Props) {
 
         <Separator />
 
-        {/* Original text */}
-        <p className="text-sm leading-relaxed whitespace-pre-wrap text-foreground/80">
-          {clause.original_text}
-        </p>
+        {/* Original text — highlighted by severity */}
+        <div className={'rounded-lg border p-3 ' + highlightClass}>
+          <p className="text-sm leading-relaxed whitespace-pre-wrap">
+            {clause.original_text}
+          </p>
+        </div>
 
         {/* Violation details */}
         {hasViolation && (
