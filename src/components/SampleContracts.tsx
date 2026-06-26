@@ -58,8 +58,8 @@ export default function SampleContracts({ onSelect }: Props) {
           className="flex flex-col items-center gap-1 cursor-grab active:cursor-grabbing hover:scale-110 transition-transform select-none"
           title={c.label}
         >
-          <div className="text-5xl">📄</div>
-          <span className="text-[11px] text-muted-foreground text-center leading-tight max-w-[100px]">
+          <div className="text-7xl">📄</div>
+          <span className="text-sm font-medium text-muted-foreground text-center leading-tight max-w-[140px]">
             {c.label}
           </span>
         </div>
