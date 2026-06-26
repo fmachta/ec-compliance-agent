@@ -1,6 +1,4 @@
 import type { AnalysisResult, ClauseDecision, Severity } from '../types';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import ClauseCard from './ClauseCard';
@@ -15,13 +13,6 @@ interface Props {
 }
 
 const SEVERITY_ORDER: Severity[] = ['critical', 'high', 'medium', 'low'];
-
-const SEVERITY_COLORS: Record<Severity, string> = {
-  critical: 'text-red-400',
-  high: 'text-orange-400',
-  medium: 'text-yellow-400',
-  low: 'text-blue-400',
-};
 
 export default function ResultsDashboard({
   analysis,
@@ -64,32 +55,6 @@ export default function ResultsDashboard({
       </div>
 
       <Separator />
-
-      {/* Severity summary cards */}
-      <div className="grid grid-cols-5 gap-3">
-        {SEVERITY_ORDER.map((sev) => (
-          <Card key={sev} className="text-center">
-            <CardContent className="p-3">
-              <div className={`text-2xl font-bold ${SEVERITY_COLORS[sev]}`}>
-                {analysis.severity_counts[sev] || 0}
-              </div>
-              <Badge variant="outline" className="mt-1 text-[10px] uppercase tracking-wider">
-                {sev}
-              </Badge>
-            </CardContent>
-          </Card>
-        ))}
-        <Card className="text-center border-emerald-500/30">
-          <CardContent className="p-3">
-            <div className="text-2xl font-bold text-emerald-400">
-              {analysis.total_clauses - analysis.flagged_count}
-            </div>
-            <Badge variant="outline" className="mt-1 text-[10px] uppercase tracking-wider border-emerald-500/30 text-emerald-400">
-              Clean
-            </Badge>
-          </CardContent>
-        </Card>
-      </div>
 
       {/* Clause cards */}
       <div className="space-y-4">

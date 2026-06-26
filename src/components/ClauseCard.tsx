@@ -2,7 +2,6 @@ import { useState } from 'react';
 import type { ClauseResult, ClauseDecision, Severity } from '../types';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 
@@ -66,7 +65,6 @@ export default function ClauseCard({ clause, decision, onDecision }: Props) {
 
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <span>Confidence: {confPct}%</span>
-            <Progress value={clause.confidence * 100} className="w-16 h-1.5" />
           </div>
         </div>
 
