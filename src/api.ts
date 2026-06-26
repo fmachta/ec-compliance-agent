@@ -109,8 +109,14 @@ Return ONLY a JSON object (no markdown, no backticks, no extra text):
   "severity": "low" | "medium" | "high" | "critical" (null if compliant),
   "confidence": number between 0.0 and 1.0,
   "explanation": "Detailed explanation of why this violates the policy, or null",
-  "suggested_rewrite": "Full rewritten clause text that would be compliant, or null"
-}`;
+  "suggested_rewrite": "Rewritten clause text that fixes the violation, or null if compliant"
+}
+
+IMPORTANT for suggested_rewrite:
+- Always provide actionable, specific replacement text — never say the contract is void or unrecoverable.
+- If the clause involves a sanctioned party or country, rewrite it to reference a compliant alternative (e.g., different payment method, different destination) and note the required authorization.
+- If the clause is missing mandatory language (e.g., ATG-SECC-01), add the missing clause text directly into the rewrite.
+- The rewrite should be usable as a drop-in replacement for the original clause.`;
 
 export async function analyzeClause(
   apiKey: string,
