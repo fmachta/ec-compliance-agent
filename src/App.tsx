@@ -278,17 +278,19 @@ export default function App() {
     );
   }
 
-  // Results view with split chat panel
+  // Results view with side-by-side chat
   if (phase === 'results' && analysis) {
     return (
       <TooltipProvider>
         <div className="flex h-screen overflow-hidden">
-          {/* Results — compresses when chat opens */}
-          <div className="flex-1 overflow-auto min-w-0">
-            {/* Gear icon positioned inside the results area, with right margin for chat */}
+          {/* Results */}
+          <div
+            className="flex-1 overflow-auto min-w-0 transition-all duration-300"
+            style={{ marginRight: showChat ? '28rem' : '0' }}
+          >
             <button
               onClick={() => setShowSettings(true)}
-              className="fixed top-4 right-4 z-20 rounded-full p-2 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+              className="fixed top-4 z-20 rounded-full p-2 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
               style={{ right: showChat ? 'calc(28rem + 1rem)' : '1rem' }}
               aria-label="Settings"
             >
@@ -304,10 +306,10 @@ export default function App() {
             />
           </div>
 
-          {/* Chat panel — slides in from right, pushes results */}
+          {/* Chat panel — fixed on the right */}
           <div
-            className={`shrink-0 w-[28rem] border-l bg-card transition-all duration-300 ease-in-out ${
-              showChat ? 'translate-x-0' : 'translate-x-full mr-[-28rem]'
+            className={`fixed top-0 right-0 h-full w-[28rem] border-l bg-card transition-transform duration-300 z-10 ${
+              showChat ? 'translate-x-0' : 'translate-x-full'
             }`}
           >
             <div className="flex items-center justify-between border-b px-4 py-3">
