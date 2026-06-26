@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import type {
   AnalysisResult,
   ChatMessage,
@@ -73,28 +73,12 @@ function generateExport(
   return lines.join('\n');
 }
 
-function useDarkMode() {
-  const [dark, setDark] = useState(() => {
-    if (typeof window === 'undefined') return true;
-    return localStorage.getItem('theme') !== 'light';
-  });
-
-  useEffect(() => {
-    const root = document.documentElement;
-    if (dark) {
-      root.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      root.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
-  }, [dark]);
-
-  return { dark, toggle: () => setDark((d) => !d) };
+// Always enable dark mode
+if (typeof document !== 'undefined') {
+  document.documentElement.classList.add('dark');
 }
 
 export default function App() {
-  const { dark, toggle: toggleDark } = useDarkMode();
   const [apiKey, setApiKey] = useState<string>(
     () => sessionStorage.getItem('gemini_api_key') || '',
   );
@@ -217,24 +201,10 @@ export default function App() {
     setPhase('upload');
   }, []);
 
-  // Dark mode toggle button (reusable)
-  const DarkToggle = (
-    <Button
-      variant="ghost"
-      size="icon"
-      onClick={toggleDark}
-      className="fixed top-4 right-4 z-50 rounded-full"
-      aria-label="Toggle dark mode"
-    >
-      {dark ? '☀️' : '🌙'}
-    </Button>
-  );
-
   // Key input screen
   if (phase === 'input-key') {
     return (
       <TooltipProvider>
-        {DarkToggle}
         <ApiKeyInput onSubmit={handleApiKey} />
       </TooltipProvider>
     );
@@ -244,7 +214,6 @@ export default function App() {
   if (phase === 'upload') {
     return (
       <TooltipProvider>
-        {DarkToggle}
         <div className="border-b bg-card">
           <div className="mx-auto max-w-4xl flex items-center justify-between px-4 py-3">
             <span className="text-sm text-muted-foreground">
@@ -281,7 +250,6 @@ export default function App() {
         : 0;
     return (
       <TooltipProvider>
-        {DarkToggle}
         <div className="flex min-h-screen items-center justify-center">
           <div className="text-center space-y-6">
             <div className="mx-auto h-16 w-16 animate-spin rounded-full border-4 border-muted border-t-primary" />
@@ -313,7 +281,6 @@ export default function App() {
     if (showChat) {
       return (
         <TooltipProvider>
-          {DarkToggle}
           <div className="flex h-screen flex-col">
             <div className="flex items-center justify-between border-b bg-card px-4 py-3">
               <h2 className="font-semibold">Chat</h2>
@@ -335,7 +302,6 @@ export default function App() {
 
     return (
       <TooltipProvider>
-        {DarkToggle}
         <ResultsDashboard
           analysis={analysis}
           decisions={decisions}
