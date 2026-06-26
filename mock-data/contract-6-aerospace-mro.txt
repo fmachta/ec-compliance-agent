@@ -1,0 +1,125 @@
+================================================================================
+              COMMERCIAL INVOICE AND EXPORT SHIPMENT AGREEMENT
+================================================================================
+
+Invoice No:       CI-2025-00472
+Date:             March 12, 2025
+Exporting Party:  Meridian Aerospace Components, Inc.
+                  Wichita, KS 67209, USA
+Consignee:        Gulf Aviation Technical Services W.L.L.
+                  Manama, Kingdom of Bahrain
+Intermediate
+Consignee:        Emirates Logistics FZE
+                  Jebel Ali Free Zone, Dubai, UAE
+
+================================================================================
+1.  DESCRIPTION OF GOODS
+
+1.1  Line Item 001:
+     Part No:    MAC-7500-TRB
+     Description: Titanium turbine rotor blade assemblies, 7-stage HP
+                  compressor, for CFM56-7B engine series
+     Qty:        24 units
+     Unit Value: $18,500.00 USD
+     Total:      $444,000.00 USD
+
+1.2  Line Item 002:
+     Part No:    MAC-BP-5500
+     Description: Boron-epoxy composite fan blade preforms, 72-inch
+                  diameter class, uncured
+     Qty:        8 units
+     Unit Value: $32,000.00 USD
+     Total:      $256,000.00 USD
+
+1.3  Total Invoice Value: $700,000.00 USD
+
+================================================================================
+2.  EXPORT CONTROL CLASSIFICATION
+
+2.1  ECCN Classification:
+     Line 001: 9E991 — "Turbine engine hot section components and related
+               technology" (controlled for NS and AT reasons)
+     Line 002: EAR99 — Composite preforms not specially designed for
+               military use; mass-market civil aviation application
+
+2.2  License Determination:
+     Line 001: License required for export to Bahrain (Country Group B).
+               No license exception available.
+     Line 002: NLR (No License Required) — Eligible for shipment under
+               License Exception NLR per EAR §740.
+
+================================================================================
+3.  END-USE CERTIFICATION
+
+3.1  Consignee certifies that Line Item 001 goods will be used exclusively
+     for the maintenance, repair, and overhaul (MRO) of CFM56-7B engines
+     powering Bahrain Royal Flight's Boeing 737-800 BBJ aircraft (civil
+     registration A9C-BRF).
+
+3.2  Consignee certifies that Line Item 001 goods will NOT be:
+
+     (a) Used in any nuclear, chemical, or biological weapons activity;
+     (b) Used in any military application other than the civil-registered
+         aircraft identified in Section 3.1;
+     (c) Re-exported, resold, or transferred to any destination in Country
+         Group D:1, D:2, or E:1 without prior BIS authorization;
+     (d) Diverted to any entity listed on the BIS Entity List, Denied
+         Persons List, or OFAC SDN List.
+
+3.3  This End-Use Certificate is provided per EAR §748.11. False statements
+     are punishable under 18 USC §1001.
+
+================================================================================
+4.  EXPORT COMPLIANCE CLAUSE (BIS STANDARD)
+
+4.1  These items are controlled by the U.S. Government and authorized for
+     export only to the country of ultimate destination for use by the
+     ultimate consignee or end-user identified herein.
+
+4.2  These items may not be resold, diverted, transferred, transshipped,
+     or otherwise disposed of in any other country, either in their original
+     form or after being incorporated into other items, without first
+     obtaining approval from the U.S. Bureau of Industry and Security (BIS).
+
+4.3  Diversion contrary to U.S. law is prohibited. Violations are subject
+     to civil penalties of up to $300,000 per violation or twice the
+     transaction value, criminal fines of up to $1,000,000, and
+     imprisonment of up to 20 years (EAR §764.3).
+
+4.4  The exporter has screened all parties to this transaction against
+     restricted party lists per EAR Part 744. Screening results are
+     retained in the exporter's compliance file for five (5) years per
+     EAR Part 762.
+
+================================================================================
+5.  SHIPMENT TERMS
+
+5.1  INCOTERMS:     DAP (Delivered at Place) — Bahrain International
+                      Airport Cargo Terminal, per INCOTERMS 2020
+5.2  Carrier:        FedEx International Priority Freight
+5.3  Air Waybill:    AWB-8023-5571-4092
+5.4  Ship Date:      March 18, 2025
+5.5  Port of Exit:   Wichita Dwight D. Eisenhower National Airport (ICT)
+
+================================================================================
+6.  CERTIFICATION
+
+6.1  The undersigned certifies that all statements and information
+     contained in this invoice and agreement are true and correct, and
+     that the export of the items described herein complies with all
+     applicable U.S. export control laws and regulations.
+
+================================================================================
+
+Authorized Signature:
+
+/s/ Thomas J. Meridian
+Thomas J. Meridian
+Export Compliance Officer
+Meridian Aerospace Components, Inc.
+
+Date: March 12, 2025
+
+================================================================================
+                            END OF DOCUMENT
+================================================================================
