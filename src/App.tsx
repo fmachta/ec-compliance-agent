@@ -7,8 +7,9 @@ import type {
 } from './types';
 import { extractPdfText, analyzeContract, chatQuery } from './api';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
+import SettingsModal, { GearIcon } from './components/SettingsModal';
+import { Button } from '@/components/ui/button';
 import ApiKeyInput from './components/ApiKeyInput';
 import Upload from './components/Upload';
 import ResultsDashboard from './components/ResultsDashboard';
@@ -85,6 +86,7 @@ export default function App() {
   const [phase, setPhase] = useState<AppPhase>(
     apiKey ? 'upload' : 'input-key',
   );
+  const [showSettings, setShowSettings] = useState(false);
   const [analysis, setAnalysis] = useState<AnalysisResult | null>(null);
   const [decisions, setDecisions] = useState<Record<string, ClauseDecision>>({});
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
@@ -214,30 +216,27 @@ export default function App() {
   if (phase === 'upload') {
     return (
       <TooltipProvider>
-        <div className="border-b bg-card">
-          <div className="mx-auto max-w-4xl flex items-center justify-between px-4 py-3">
-            <span className="text-sm text-muted-foreground">
-              API key: {apiKey.slice(0, 8)}...{apiKey.slice(-4)}
-            </span>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => {
-                sessionStorage.removeItem('gemini_api_key');
-                setApiKey('');
-                setPhase('input-key');
-              }}
-            >
-              Clear key
-            </Button>
-          </div>
-        </div>
+        <button
+          onClick={() => setShowSettings(true)}
+          className="fixed top-4 right-4 z-50 rounded-full p-2 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+          aria-label="Settings"
+        >
+          <GearIcon />
+        </button>
         {error && (
           <div className="mx-auto mt-4 max-w-lg rounded-lg bg-destructive/10 p-4 text-sm text-destructive">
             <strong>Error:</strong> {error}
           </div>
         )}
         <Upload onUpload={handleUpload} />
+        {showSettings && (
+          <SettingsModal
+            apiKey={apiKey}
+            onSave={(key) => { setApiKey(key); setShowSettings(false); }}
+            onClear={() => { sessionStorage.removeItem('gemini_api_key'); setApiKey(''); setShowSettings(false); setPhase('input-key'); }}
+            onClose={() => setShowSettings(false)}
+          />
+        )}
       </TooltipProvider>
     );
   }
@@ -250,6 +249,13 @@ export default function App() {
         : 0;
     return (
       <TooltipProvider>
+        <button
+          onClick={() => setShowSettings(true)}
+          className="fixed top-4 right-4 z-50 rounded-full p-2 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+          aria-label="Settings"
+        >
+          <GearIcon />
+        </button>
         <div className="flex min-h-screen items-center justify-center">
           <div className="text-center space-y-6">
             <div className="mx-auto h-16 w-16 animate-spin rounded-full border-4 border-muted border-t-primary" />
@@ -272,6 +278,14 @@ export default function App() {
             </div>
           </div>
         </div>
+        {showSettings && (
+          <SettingsModal
+            apiKey={apiKey}
+            onSave={(key) => { setApiKey(key); setShowSettings(false); }}
+            onClear={() => { sessionStorage.removeItem('gemini_api_key'); setApiKey(''); setShowSettings(false); setPhase('input-key'); }}
+            onClose={() => setShowSettings(false)}
+          />
+        )}
       </TooltipProvider>
     );
   }
@@ -281,6 +295,13 @@ export default function App() {
     if (showChat) {
       return (
         <TooltipProvider>
+          <button
+            onClick={() => setShowSettings(true)}
+            className="fixed top-4 right-4 z-50 rounded-full p-2 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+            aria-label="Settings"
+          >
+            <GearIcon />
+          </button>
           <div className="flex h-screen flex-col">
             <div className="flex items-center justify-between border-b bg-card px-4 py-3">
               <h2 className="font-semibold">Chat</h2>
@@ -296,12 +317,27 @@ export default function App() {
               />
             </div>
           </div>
+          {showSettings && (
+            <SettingsModal
+              apiKey={apiKey}
+              onSave={(key) => { setApiKey(key); setShowSettings(false); }}
+              onClear={() => { sessionStorage.removeItem('gemini_api_key'); setApiKey(''); setShowSettings(false); setPhase('input-key'); }}
+              onClose={() => setShowSettings(false)}
+            />
+          )}
         </TooltipProvider>
       );
     }
 
     return (
       <TooltipProvider>
+        <button
+          onClick={() => setShowSettings(true)}
+          className="fixed top-4 right-4 z-50 rounded-full p-2 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+          aria-label="Settings"
+        >
+          <GearIcon />
+        </button>
         <ResultsDashboard
           analysis={analysis}
           decisions={decisions}
@@ -310,6 +346,14 @@ export default function App() {
           onChat={() => setShowChat(true)}
           onNewUpload={handleNewUpload}
         />
+        {showSettings && (
+          <SettingsModal
+            apiKey={apiKey}
+            onSave={(key) => { setApiKey(key); setShowSettings(false); }}
+            onClear={() => { sessionStorage.removeItem('gemini_api_key'); setApiKey(''); setShowSettings(false); setPhase('input-key'); }}
+            onClose={() => setShowSettings(false)}
+          />
+        )}
       </TooltipProvider>
     );
   }
