@@ -34,6 +34,25 @@ export default function Upload({ onUpload, onSampleSelect }: Props) {
       maxSize: 10 * 1024 * 1024,
     });
 
+  const rootProps = getRootProps();
+
+  // Intercept drops: if it's a sample contract (text data), handle it directly.
+  // Otherwise pass through to react-dropzone's handler.
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      const text = e.dataTransfer.getData('text/plain');
+      const label = e.dataTransfer.getData('application/x-sample-contract');
+      if (text && label) {
+        e.preventDefault();
+        e.stopPropagation();
+        setError(null);
+        onSampleSelect(text, label);
+      }
+      // For real files, react-dropzone's rootProps.onDrop handles it
+    },
+    [onSampleSelect],
+  );
+
   const rejectionError =
     fileRejections.length > 0
       ? fileRejections[0].errors[0]?.message || 'Invalid file'
@@ -53,7 +72,8 @@ export default function Upload({ onUpload, onSampleSelect }: Props) {
           </CardHeader>
           <CardContent className="space-y-4">
             <div
-              {...getRootProps()}
+              {...rootProps}
+              onDrop={handleDrop}
               className={`cursor-pointer rounded-xl border-2 border-dashed p-12 text-center transition-all ${
                 isDragActive
                   ? 'border-primary bg-primary/5 scale-[1.02]'
