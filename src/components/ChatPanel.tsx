@@ -29,7 +29,7 @@ export default function ChatPanel({ messages, onSend, loading }: Props) {
   };
 
   return (
-    <Card className="flex flex-col h-[60vh] max-h-[600px] overflow-hidden shadow-xl border-muted">
+    <Card className="flex flex-col h-full overflow-hidden shadow-none border-0 rounded-none">
       <ScrollArea className="flex-1 p-4">
         <div className="space-y-4">
           {messages.length === 0 && (
