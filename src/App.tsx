@@ -278,55 +278,53 @@ export default function App() {
     );
   }
 
-  // Results view with slide-in chat
+  // Results view with split chat panel
   if (phase === 'results' && analysis) {
     return (
       <TooltipProvider>
-        <button
-          onClick={() => setShowSettings(true)}
-          className="fixed top-4 right-4 z-40 rounded-full p-2 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
-          aria-label="Settings"
-        >
-          <GearIcon />
-        </button>
-
-        <ResultsDashboard
-          analysis={analysis}
-          decisions={decisions}
-          onDecision={handleDecision}
-          onExport={handleExport}
-          onChat={() => setShowChat(true)}
-          onNewUpload={handleNewUpload}
-        />
-
-        {/* Chat slide-in panel */}
-        <div
-          className={`fixed top-0 right-0 z-30 h-full w-full max-w-md transform transition-transform duration-300 ease-in-out shadow-2xl border-l bg-card ${
-            showChat ? 'translate-x-0' : 'translate-x-full'
-          }`}
-        >
-          <div className="flex items-center justify-between border-b px-4 py-3">
-            <h2 className="font-semibold">Chat</h2>
-            <Button variant="ghost" size="sm" onClick={() => setShowChat(false)}>
-              ✕ Close
-            </Button>
-          </div>
-          <div className="h-[calc(100%-57px)] overflow-hidden">
-            <ChatPanel
-              messages={chatMessages}
-              onSend={handleChat}
-              loading={chatLoading}
+        <div className="flex h-screen overflow-hidden">
+          {/* Results — compresses when chat opens */}
+          <div className="flex-1 overflow-auto min-w-0">
+            {/* Gear icon positioned inside the results area, with right margin for chat */}
+            <button
+              onClick={() => setShowSettings(true)}
+              className="fixed top-4 right-4 z-20 rounded-full p-2 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+              style={{ right: showChat ? 'calc(28rem + 1rem)' : '1rem' }}
+              aria-label="Settings"
+            >
+              <GearIcon />
+            </button>
+            <ResultsDashboard
+              analysis={analysis}
+              decisions={decisions}
+              onDecision={handleDecision}
+              onExport={handleExport}
+              onChat={() => setShowChat(true)}
+              onNewUpload={handleNewUpload}
             />
           </div>
-        </div>
 
-        {/* Backdrop when chat is open */}
-        {showChat && (
+          {/* Chat panel — slides in from right, pushes results */}
           <div
-            className="fixed inset-0 z-20 bg-black/20"
-            onClick={() => setShowChat(false)}
-          />
-        )}
+            className={`shrink-0 w-[28rem] border-l bg-card transition-all duration-300 ease-in-out ${
+              showChat ? 'translate-x-0' : 'translate-x-full mr-[-28rem]'
+            }`}
+          >
+            <div className="flex items-center justify-between border-b px-4 py-3">
+              <h2 className="font-semibold">Chat</h2>
+              <Button variant="ghost" size="sm" onClick={() => setShowChat(false)}>
+                ✕ Close
+              </Button>
+            </div>
+            <div className="h-[calc(100vh-57px)]">
+              <ChatPanel
+                messages={chatMessages}
+                onSend={handleChat}
+                loading={chatLoading}
+              />
+            </div>
+          </div>
+        </div>
 
         {showSettings && (
           <SettingsModal
