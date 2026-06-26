@@ -30,8 +30,8 @@ export default function ChatPanel({ messages, onSend, loading }: Props) {
 
   return (
     <Card className="flex flex-col h-full overflow-hidden shadow-none border-0 rounded-none">
-      <ScrollArea className="flex-1 p-4">
-        <div className="space-y-4">
+      <ScrollArea className="flex-1">
+        <div className="p-4 space-y-4">
           {messages.length === 0 && (
             <p className="text-center text-sm text-muted-foreground py-8">
               Ask questions about the flagged clauses or the compliance policy.
