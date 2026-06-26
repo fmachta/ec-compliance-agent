@@ -193,7 +193,9 @@ export async function analyzeContract(
   };
 }
 
-const CHAT_SYSTEM_PROMPT = `You are an Export Control Compliance assistant. Answer the user's questions about their export control contract analysis. Be precise about policy section references. Keep answers concise. If you don't have enough context, say so.`;
+const CHAT_SYSTEM_PROMPT = `You are an Export Control Compliance assistant. Answer the user's questions about their export control contract analysis. Be precise about policy section references. Keep answers concise. If you don't have enough context, say so.
+
+CRITICAL: Respond in plain text only. Do NOT use markdown, bold, italics, bullet points, numbered lists, backticks, headings, or any other formatting. Just plain paragraphs.`;
 
 /** Chat with Gemini about the analysis results */
 export async function chatQuery(
