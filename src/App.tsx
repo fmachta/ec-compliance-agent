@@ -10,6 +10,7 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { Progress } from '@/components/ui/progress';
 import SettingsModal, { GearIcon } from './components/SettingsModal';
 import { Button } from '@/components/ui/button';
+import Slideshow from './components/Slideshow';
 import Upload from './components/Upload';
 import ResultsDashboard from './components/ResultsDashboard';
 import ChatPanel from './components/ChatPanel';
@@ -84,6 +85,7 @@ export default function App() {
   );
   const [phase, setPhase] = useState<AppPhase>('upload');
   const [showSettings, setShowSettings] = useState(false);
+  const [showSlideshow, setShowSlideshow] = useState(false);
   const [analysis, setAnalysis] = useState<AnalysisResult | null>(null);
   const [decisions, setDecisions] = useState<Record<string, ClauseDecision>>({});
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
@@ -206,10 +208,18 @@ export default function App() {
       <TooltipProvider>
         <button
           onClick={() => setShowSettings(true)}
-          className="fixed top-4 right-4 z-50 rounded-full p-2 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+          className="fixed top-4 right-4 z-20 rounded-full p-2 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
           aria-label="Settings"
         >
           <GearIcon />
+        </button>
+        <button
+          onClick={() => setShowSlideshow(true)}
+          className="fixed top-4 right-14 z-20 rounded-full p-2 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+          aria-label="Presentation"
+          title="Slideshow"
+        >
+          📽
         </button>
         {error && (
           <div className="mx-auto mt-4 max-w-lg rounded-lg bg-destructive/10 p-4 text-sm text-destructive">
@@ -225,6 +235,7 @@ export default function App() {
             onClose={() => setShowSettings(false)}
           />
         )}
+        {showSlideshow && <Slideshow onClose={() => setShowSlideshow(false)} />}
       </TooltipProvider>
     );
   }
@@ -239,10 +250,18 @@ export default function App() {
       <TooltipProvider>
         <button
           onClick={() => setShowSettings(true)}
-          className="fixed top-4 right-4 z-50 rounded-full p-2 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+          className="fixed top-4 right-4 z-20 rounded-full p-2 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
           aria-label="Settings"
         >
           <GearIcon />
+        </button>
+        <button
+          onClick={() => setShowSlideshow(true)}
+          className="fixed top-4 right-14 z-20 rounded-full p-2 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+          aria-label="Presentation"
+          title="Slideshow"
+        >
+          📽
         </button>
         <div className="flex min-h-screen items-center justify-center">
           <div className="text-center space-y-6">
@@ -274,6 +293,7 @@ export default function App() {
             onClose={() => setShowSettings(false)}
           />
         )}
+        {showSlideshow && <Slideshow onClose={() => setShowSlideshow(false)} />}
       </TooltipProvider>
     );
   }
@@ -336,6 +356,7 @@ export default function App() {
             onClose={() => setShowSettings(false)}
           />
         )}
+        {showSlideshow && <Slideshow onClose={() => setShowSlideshow(false)} />}
       </TooltipProvider>
     );
   }
